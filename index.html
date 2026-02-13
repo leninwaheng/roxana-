@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Important Question 😌</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffd6e0, #ffeef2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .container {
+      background: white;
+      padding: 30px 25px 35px;
+      border-radius: 22px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+      max-width: 360px;
+      width: 92%;
+      z-index: 2;
+    }
+
+    img {
+      width: 180px;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      position: relative;
+      height: 200px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 32px;
+      font-size: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    /* YES ON TOP */
+    #yesBtn {
+      background: #ff4d6d;
+      color: white;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%) scale(1);
+      z-index: 2;
+      transition: transform 0.25s ease;
+    }
+
+    /* NO BELOW */
+    #noBtn {
+      background: #adb5bd;
+      color: white;
+      top: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    /* Falling hearts */
+    .heart {
+      position: fixed;
+      top: -20px;
+      font-size: 24px;
+      animation: fall linear forwards;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container" id="card">
+    <<img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGVxcTJlNGxyZTZ3M21wdG84cHkwcGtyZmMwZG44ODVicDd6cndwcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/y93x7gLXTO5dnSWCEI/giphy.gif" alt="cute">
+>
+
+    <h1 id="question"></h1>
+
+    <div class="buttons">
+      <button id="yesBtn">Yes 💕</button>
+      <button id="noBtn">No 😒</button>
+    </div>
+  </div>
+
+  <script>
+    /* 💖 HER NAME */
+    const herName = "Shaina";
+
+    const question = document.getElementById("question");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const box = document.querySelector(".buttons");
+
+    question.textContent = `Will you be my Valentine, ${herName}? 😋`;
+
+    let scale = 1;
+    let count = 0;
+
+    const noMessages = [
+      "Are you sure 😆?",
+      "Think again 😏",
+      "Wrong button 😌",
+      "This button is broken 👻",
+      "Nice try 😭",
+      "Just click yes already 😔",
+      "You know you want to 😌",
+      "Final warning ⚠️"
+    ];
+
+    function moveNo() {
+      const maxX = box.clientWidth - noBtn.offsetWidth;
+      const maxY = box.clientHeight - noBtn.offsetHeight - 40;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY + 60;
+
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+      noBtn.style.transform = "none";
+
+      noBtn.textContent = noMessages[count % noMessages.length];
+      count++;
+
+      scale += 0.15;
+      yesBtn.style.transform = `translateX(-50%) scale(${scale})`;
+    }
+
+    noBtn.addEventListener("mouseover", moveNo);
+    noBtn.addEventListener("click", moveNo);
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 2 + Math.random() * 3 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+
+    yesBtn.addEventListener("click", () => {
+      document.getElementById("card").style.display = "none";
+
+      const rain = setInterval(createHeart, 200);
+      setTimeout(() => clearInterval(rain), 5000);
+
+      setTimeout(() => {
+        document.body.innerHTML += `
+          <div style="
+            position:fixed;
+            inset:0;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+            font-family:'Poppins', sans-serif;
+            z-index:3;
+          ">
+            <div>
+              <h1>YAYYYYY 😍💖</h1>
+              <p style="font-size:18px">
+                Valentine officially secured 💘 
+              </p>
+            </div>
+          </div>
+        `;
+      }, 800);
+    });
+  </script>
+
+</body>
+</html>
